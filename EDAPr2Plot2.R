@@ -1,7 +1,7 @@
 setwd("C:/Users/Family/Desktop/Coursera/4-EDA/WK4")
 getwd()
-#if(!file.exists("data")) {dir.create("./data")}
-# Download the data
+if(!file.exists("data")) {dir.create("./data")}
+ Download the data
 dfile1 = "expdata_prj2.zip"
 if (!file.exists(dfile1)) {
   fileUrl1 = download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip",
