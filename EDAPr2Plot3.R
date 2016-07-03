@@ -11,7 +11,7 @@ unzip("./expdata_prj2.zip", exdir = "./data")
 #-------------------------------------------------------------------------------------
 
 # Script Name: plot3.R
-# Of the four types of sources indicated by the type (point, nonpoint, onroad, nonroad) variable,
+# Of the four types of sources indicated by the type - point, nonpoint, onroad, nonroad) variable,
 # which of these four sources have seen decreases in emissions from 1999 to 2008 for Baltimore City? 
 # Which have seen increases in emissions from 1999 to 2008? 
 # Use the ggplot2 plotting system to make a plot to answer this question.
@@ -20,28 +20,45 @@ unzip("./expdata_prj2.zip", exdir = "./data")
 library(ggplot2)
 library(plyr)
 
-## Step 1: read the data into R
+## Step1: read the data into R
 NEI <- readRDS("./data/summarySCC_PM25.rds")
 SCC <- readRDS("./data/Source_Classification_Code.rds")
 
-#Step 2: subset the data
+#Step2: subset the data
 baltimore <- subset (NEI, fips == "24510")
 typePM25.year <- ddply(baltimore, .(year, type), function(x) sum(x$Emissions))
 
-# Rename the col: Emissions
+# Step3: Rename the col: Emissions
 colnames(typePM25.year)[3] <- "Emissions"
 
-## Step 3: Create png plot.
+# Step4: Create plot3.png
 png("plot3.png") 
 qplot(year, Emissions, data=typePM25.year, color=type, geom ="line") + ggtitle(expression("Baltimore City" ~ PM[2.5] ~ "Emmission by source, type and year")) + xlab("Year") + ylab(expression("Total" ~ PM[2.5] ~ "Emissions (in tons)"))
 dev.off()
 
-## Step 4:plot the markdown
+# Step5: Use qplot to create the markdown plot
 qplot(year, Emissions, data=typePM25.year, color=type, geom ="line") + ggtitle(expression("Baltimore City" ~ PM[2.5] ~ "Emmission by source, type and year")) + xlab("Year") + ylab(expression("Total" ~ PM[2.5] ~ "Emissions (in tons)")) 
-# plot of chunk question3
 
-# Answer:
-#Nonpoint (green line): From the plot, we see that nonpoint (green line) sharply decreased from 1999 to 2002. It remained steady from 2002 to 2005 with 1,500 Total \(PM_{2.5}\) emissions. Finally, a slight decrease occurred between 2005 and 2008 from 1,500 Total \(PM_{2.5}\) emissions.
-#Point (purple line): From the plot, we see that the point (purple line) slightly increased from 1999 to 2002. It then sharply increased in \(PM_{2.5}\) emissions from 2002 to 2005. Finally, from 2005 to 2008, the \(PM_{2.5}\) emissions sharply decreased.
-# Onroad (blue line): From the plot, we see that the onroad (blue line) slightly decreased from 1999 to 2002. It remained approximately steady from 2002 to 2005 and continued this trend from 2005 to 2008. In comparison to the nonroad values, this over all trend was lower compared to the nonroad values.
-# Nonroad (red line): From the plot, we see that the nonroad (red line) followed the same path as the onroad values only slightly higher in \(PM_{2.5}\) emissions values. slightly decreased from 1999 to 2002. It remained approximately steady from 2002 to 2005 and continued this trend from 2005 to 2008.
+# -------------------------------------------------------------------------------------------------------
+# Answers:
+# Point (purple line) Shows: 
+  # (i)   Slight increase between  1999 and 2002.
+  # (ii)  Sharp increase in PM2.5 emissions between 2002 and 2005.
+  # (iii) Decrease in PM2.5 emissions between 2005 and 2008.
+
+# Nonpoint (green line) Shows: 
+  # (i)   sharp decrease in PM2.5 emissions between  1999 and 2002. 
+  # (ii)  Steady flow of PM2.5 emissions between 2002 and 2005 
+  # (iii) Slight decrease in PM2.5 emission between 2005 and 2008 
+
+# Onroad (blue line) Shows: 
+  # (i)   slight decrease in PM2.5 emission between 1999 and 2002.
+  # (ii)  Steady flow in PM2.5 emission between 2002 and 2005 
+  # (iii) Continued steady flow of PM2.5 emission between 2005 and 2008. 
+
+# Nonroad (red line) shows:
+  # (i)   Slightly decrease in PM2.5 emission between 1999 and 2002.
+  # (ii)  Approximately steady flow between 2002 and 2005 
+  # (iii) continued steady flow of PM2.5 between 2005 and 2008.
+
+# It is worth noting that the emission values for Nonroad are higher than those of Onroad.

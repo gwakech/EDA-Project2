@@ -17,16 +17,16 @@ unzip("./expdata_prj2.zip", exdir = "./data")
 library(plyr)
 library(ggplot2)
 
-# Step 1: read data into R
+# Step1: read data into R
 NEI <- readRDS("./data/summarySCC_PM25.rds")
 SCC <- readRDS("./data/Source_Classification_Code.rds")
 
-# Step 2:  Coal Combustion data subset 
+# Step2:  Coal combustion data subset 
 coalcomb.scc <- subset(SCC, EI.Sector %in% c("Fuel Comb - Comm/Instutional - Coal", 
                                              "Fuel Comb - Electric Generation - Coal", "Fuel Comb - Industrial Boilers, ICEs - 
                                              Coal"))
 
-## Step 3: Review and compare rows 0 and 91 the data subsets. Determine the differences
+# Step3: Compare rows 0 and 91 the data subsets. 
 coalcomb.scc1 <- subset(SCC, grepl("Comb", Short.Name) & grepl("Coal", Short.Name))
 
 nrow(coalcomb.scc) 
@@ -34,7 +34,7 @@ nrow(coalcomb.scc)
 nrow(coalcomb.scc1)
 #evaluate: rows 91
 
-#Step 4: set the differences 
+#Step4: Determine the differences 
 dif1 <- setdiff(coalcomb.scc$SCC, coalcomb.scc1$SCC)
 dif2 <- setdiff(coalcomb.scc1$SCC, coalcomb.scc$SCC)
 
@@ -42,30 +42,45 @@ length(dif1)
 length(dif2)
 
 
-# View the union of these sets
+# step5: Create the union of these sets
 coalcomb.codes <- union(coalcomb.scc$SCC, coalcomb.scc1$SCC)
 
 length(coalcomb.codes) 
 
-# Step 5: additional subset o provide required information
+# Step6: Additional subset  provide required information
 coal.comb <- subset(NEI, SCC %in% coalcomb.codes)
 
-#Step 6: get the PM25 values
+#Step7: Obtain the PM25 values
 coalcomb.pm25year <- ddply(coal.comb, .(year, type), function(x) sum(x$Emissions))
 
-#rename the col
+# step8:  Rename the col
 colnames(coalcomb.pm25year)[3] <- "Emissions"
 
-##Step 7: finally  create plot4.png 
+#Step9: Create plot4.png 
 png("plot4.png")
 qplot(year, Emissions, data=coalcomb.pm25year, color=type, geom="line") + stat_summary(fun.y = "sum", fun.ymin = "sum", fun.ymax = "sum", color = "purple", aes(shape="total"), geom="line") + geom_line(aes(size="total", shape = NA)) + ggtitle(expression("Coal Combustion" ~ PM[2.5] ~ "Emissions by Source Type and Year")) + xlab("Year") + ylab(expression("Total" ~ PM[2.5] ~ "Emissions (tons)"))
 dev.off()
 
-## Step 8: prepare to plot to markdown
+#Step10: Create the Markdown plot
 qplot(year, Emissions, data=coalcomb.pm25year, color=type, geom="line") + stat_summary(fun.y = "sum", fun.ymin = "sum", fun.ymax = "sum", color = "purple", aes(shape="total"), geom="line") + geom_line(aes(size="total", shape = NA)) + ggtitle(expression("Coal Combustion" ~ PM[2.5] ~ "Emissions by Source Type and Year")) + xlab("Year") + ylab(expression("Total" ~ PM[2.5] ~ "Emissions (tons)"))
 
+# Q4:Across the United States, how have emissions from coal combustion-related sources changed from 1999 to 2008?
+# Answer: Yes
+# Total (Purple Line) shows:
+  #(i)   Slight decline between 1999 and 2002. 
+  #(ii)  Marginal increase between 2002 to 2005.
+  #(iii) Sharp decrease between 2005 to 2008.
 
-# Answer:
-# Total (Purple Line): From the plot, we see that the purple line for total slightly declines from 1999 to 2002. From 2002 to 2005 the line has a marginal increase. Finally, from 2005 to 2008, the overall trend has a sharp decrease.
-# Point (Blue Line): From the plot, we see that the blue line for point is slightly similar in shape to the total purple line. From 1999 to 2002 the point blue line has a steeper decrease. From 2002 to 2005, the point blue line increases only slightly. Finally, from 2005 to 2008, the overall trend has a sharp decrease.
-# Nonpoint (Red Line): This line is remarkably different from the other two lines. From 1999 to 2002 it has an increase (although it starts from a much lower level than the other two lines at just above zero). From 2002 to 2005 it remains nearly level and does not appear to increase or decrease much. Finally, from 2005 to 2008, another symmetrical decrease occurs to end just below the initial levels for the 1999 values.
+# Point (Blue Line) show:
+  # (i)   Slight decline between 1999 and  2002.
+  # (ii)  Marginal increase between2002 and 2005. 
+  # (iii) Sharp decrease between 2005 and 2008.
+# It is worth noting that the trends total (blue line)  and point (purple line) are similar, 
+# however the  changes in point(blue line) are steper than the changes in Total(Purple Line)
+
+#Nonpoint (Red Line): show
+ # (i)  Slight increase between 1999 and 2002, though it starts at much lower point.
+ # (ii) Level steady steady state between 2002 and 2005, no noticeable changes.
+ # (iii) Slight decrease between 2005 and 2008.
+# It is worth noting that nonpoint line  shows a different trend from the Total and Point lines above between 1999 and 2002
+

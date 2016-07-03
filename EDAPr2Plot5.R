@@ -12,23 +12,22 @@ unzip("./expdata_prj2.zip", exdir = "./data")
 # Script Name: plot5.R
 # How have emissions from motor vehicle sources changed from 1999 - 2008 in Baltimore City?
 
-
 # This plot requires the following Libraries:
 
 library(plyr)
 library(ggplot2)
 
-# Step 1: read the data into R
+# Step1: read the data into R
 NEI <- readRDS("./data/summarySCC_PM25.rds")
 SCC <- readRDS("./data/Source_Classification_Code.rds")
 
-#Step 2: Data subset
+#Step2: Data subset
 #check emission levels for each type of motor vehicles when it is are switched on..
 mv.sourced <- unique(grep("Vehicles", SCC$EI.Sector, ignore.case = TRUE, value = TRUE))
 
 mv.sourcec <- SCC[SCC$EI.Sector %in% mv.sourced, ]["SCC"]
 
-#Step 3: Motor vhicle emission subset for NEI in Baltimore,MD
+#Step3: Motor vhicle emission subset for NEI in Baltimore,MD
 
 emMV.ba <- NEI[NEI$SCC %in% mv.sourcec$SCC & NEI$fips == "24510",]
 
@@ -41,9 +40,13 @@ png("plot5.png")
 qplot(year, Emissions, data=balmv.pm25yr, geom="line") + ggtitle(expression("Baltimore City" ~ PM[2.5] ~ "Motor Vehicle Emissions by Year")) + xlab("Year") + ylab(expression("Total" ~ PM[2.5] ~ "Emissions (tons)"))
 dev.off()
 
-## Step 6: Plot to markdown
+# Step6: Create markdown plot.
 qplot(year, Emissions, data=balmv.pm25yr, geom="line") + ggtitle(expression("Baltimore City" ~ PM[2.5] ~ "Motor Vehicle Emissions by Year")) + xlab("Year") + ylab(expression("Total" ~ PM[2.5] ~ "Emissions (tons)"))
 
+# Q5:How have emissions from motor vehicle sources changed from 1999 - 2008 in Baltimore City? 
 # Answer:
-# Starting with 1999, the \(PM_{2.5}\) emissions was just below 350, the levels fell sharply until 2002. From 2002 to 2005 the levels plateaued. Finally from 2005 to 2008, the \(PM_{2.5}\) emissions drop to below 100 \(PM_{2.5}\) emissions.
+# The plot shows 
+# (i)   Sharp decrease in PM2.5 emission between 1999 and 2002.
+# (ii)  Gentle decrease-nearly steady state in PM2.5 emission flow  between 2002 and 2005
+# (iii) Slight decrease in PM2.5 emission between 2005 and 2008.  The emission fell below 100.
 
