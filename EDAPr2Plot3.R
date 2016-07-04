@@ -1,12 +1,17 @@
-Have total emissions from PM_2.5 decreased in the Baltimore City, Maryland (fips == "24510") from 1999 to 2008?
-# Use the base plotting system to make a plot answering this question.
-#-------------------------------------------------------------------------------------
-
-# Script Name: plot3.R
-# Of the four types of sources indicated by the type - point, nonpoint, onroad, nonroad) variable,
+ Script Name: plot3.R
+# Q3: Of the four types of sources indicated by the type - point, nonpoint, onroad, nonroad) variable,
 # which of these four sources have seen decreases in emissions from 1999 to 2008 for Baltimore City? 
 # Which have seen increases in emissions from 1999 to 2008? 
 # Use the ggplot2 plotting system to make a plot to answer this question.
+
+setwd("C:/Users/Family/Desktop/Coursera/4-EDA/WK4")
+# Download the data
+dfile = "expdata_prj2.zip"
+if (!file.exists("dfile")) {dir.create("./dfile")}
+{ fileUrl1 <- download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip",
+                        destfile = dfile, mode = "wb")
+}
+unzip("./expdata_prj2.zip", exdir = "./dfile")
 
 ## This requires the following libraries:
 library(ggplot2)
