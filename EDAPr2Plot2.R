@@ -1,17 +1,15 @@
-setwd("C:/Users/Family/Desktop/Coursera/4-EDA/WK4")
-getwd()
-if(!file.exists("data")) {dir.create("./data")}
- Download the data
-dfile1 = "expdata_prj2.zip"
-if (!file.exists(dfile1)) {
-  fileUrl1 = download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip",
-                           destfile = dfile1, mode = "wb")
-}
-unzip("./expdata_prj2.zip", exdir = "./data")
-#-------------------------------------------------------------------------------------
 # Script Name: plot2.R
-# Have total emissions from PM_2.5 decreased in the Baltimore City, Maryland (fips == "24510") from 1999 to 2008?
+# Q2:Have total emissions from PM_2.5 decreased in the Baltimore City, Maryland (fips == "24510") from 1999 to 2008?
 # Use the base plotting system to make a plot answering this question.
+
+setwd("C:/Users/Family/Desktop/Coursera/4-EDA/WK4")
+# Download the data
+dfile = "expdata_prj2.zip"
+if (!file.exists("dfile")) {dir.create("./dfile")}
+{ fileUrl1 <- download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip",
+                        destfile = dfile, mode = "wb")
+}
+unzip("./expdata_prj2.zip", exdir = "./dfile")
 
 # Step1: read  the data into R
 NEI <- readRDS("./data/summarySCC_PM25.rds")
