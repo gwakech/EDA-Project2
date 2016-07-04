@@ -1,17 +1,16 @@
 # Script Name: plot1.R
-#Q1: Have total emissions from PM2.5 decreased in the United States from 1999 to 2008? 
+# Q1: Have total emissions from PM2.5 decreased in the United States from 1999 to 2008? 
 # Using the base plotting system,make a plot showing the total PM2.5 emission from all sources for each of the years 1999,
 # 2002, 2005, and 2008.
+
 setwd("C:/Users/Family/Desktop/Coursera/4-EDA/WK4")
-getwd()
-if(!file.exists("data")) {dir.create("./data")}
 # Download the data
-dfile1 = "expdata_prj2.zip"
-if (!file.exists(dfile1)) {
-fileUrl1 = download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip",
-                         destfile = dfile1, mode = "wb")
+dfile = "expdata_prj2.zip"
+if (!file.exists("dfile")) {dir.create("./dfile")}
+{ fileUrl1 <- download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip",
+                        destfile = dfile, mode = "wb")
 }
-unzip("./expdata_prj2.zip", exdir = "./data")
+unzip("./expdata_prj2.zip", exdir = "./dfile")
 
 # Step1: read data into R
 NEI <- readRDS("./data/summarySCC_PM25.rds")
