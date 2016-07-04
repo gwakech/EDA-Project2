@@ -1,17 +1,13 @@
-setwd("C:/Users/Family/Desktop/Coursera/4-EDA/WK4")
-getwd()
-if(!file.exists("data")) {dir.create("./data")}
- Download the data
-dfile1 = "expdata_prj2.zip"
-if (!file.exists(dfile1)) {
-  fileUrl1 = download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip",
-                           destfile = dfile1, mode = "wb")
-}
-unzip("./expdata_prj2.zip", exdir = "./data")
-#-------------------------------------------------------------------------------------
-
 # Script Name: plot4.R
 # Across the United States, how have emissions from coal combustion-related sources changed from 1999 to 2008?
+setwd("C:/Users/Family/Desktop/Coursera/4-EDA/WK4")
+# Download the data
+dfile = "expdata_prj2.zip"
+if (!file.exists("dfile")) {dir.create("./dfile")}
+{ fileUrl1 <- download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip",
+                        destfile = dfile, mode = "wb")
+}
+unzip("./expdata_prj2.zip", exdir = "./dfile")
 
 # This plot requires the following Libraries:
 library(plyr)
