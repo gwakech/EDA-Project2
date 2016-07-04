@@ -1,18 +1,14 @@
-setwd("C:/Users/Family/Desktop/Coursera/4-EDA/WK4")
-getwd()
-if(!file.exists("data")) {dir.create("./data")}
- Download the data
-dfile1 = "expdata_prj2.zip"
-if (!file.exists(dfile1)) {
-  fileUrl1 = download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip",
-                           destfile = dfile1, mode = "wb")
-}
-unzip("./expdata_prj2.zip", exdir = "./data")
-#-------------------------------------------------------------------------------------
-
 # Script Name: plot6.R
-# Compare emissions from motor vehicle sources in Baltimore City with emissions from motor vehicle sources in Los Angeles County, California, California (fips == "06037"). Which city has seen greater changes over time in motor vehicle emissions?
-
+# Compare emissions from motor vehicle sources in Baltimore City with emissions from motor vehicle sources in Los Angeles County, California, California (fips == "06037"). 
+# Which city has seen greater changes over time in motor vehicle emissions?
+setwd("C:/Users/Family/Desktop/Coursera/4-EDA/WK4")
+# Download the data
+dfile = "expdata_prj2.zip"
+if (!file.exists("dfile")) {dir.create("./dfile")}
+{ fileUrl1 <- download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip",
+                        destfile = dfile, mode = "wb")
+}
+unzip("./expdata_prj2.zip", exdir = "./dfile")
 # This plot requires the following Libraries: 
 library(plyr)
 library(ggplot2)
